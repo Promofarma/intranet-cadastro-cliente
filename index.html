@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exemplo Cadastro de Clientes</title>
+    <link rel="stylesheet" href="./src/styles/main.css" />
+  </head>
+  <body>
+    <drawer-component id="create_customer" cloak>
+      <div slot="title">Cadastro de Cliente</div>
+      <div slot="body">
+        <form id="create_customer_form">
+          <!-- customer data -->
+          <fieldset id="customer-data" class="form-section">
+            <legend>Informações pessoais</legend>
+            <div class="form-group">
+              <label for="name">Nome:</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Nome completo do cliente"
+                class="input-control"
+                autocomplete="off"
+                maxlength="60"
+                required
+                value="vinicius alves coutinho"
+              />
+              <span id="name-error-message" class="error-message"></span>
+            </div>
+            <div class="form-group">
+              <label for="email">E-mail:</label>
+              <input
+                type="text"
+                name="email"
+                id="email"
+                placeholder="exemplo@dominio.com"
+                class="input-control"
+                autocomplete="off"
+                maxlength="255"
+                required
+                value="2gV4W@example.com"
+              />
+              <span id="email-error-message" class="error-message"></span>
+            </div>
+            <div class="form-group">
+              <label for="cpf">CPF:</label>
+              <input
+                type="text"
+                name="cpf"
+                id="cpf"
+                placeholder="Digite o CPF (somente números)"
+                class="input-control"
+                maxlength="14"
+                autocomplete="off"
+                data-mask="###.###.###-##"
+                onblur="handleCpfInputInteraction(this)"
+                required
+                value="471.450.268-99"
+              />
+              <span id="cpf-error-message" class="error-message"></span>
+              <span class="hint">Insira sem pontos ou traços</span>
+            </div>
+            <div class="form-group">
+              <label for="phone">Celular:</label>
+              <input
+                type="text"
+                name="phone"
+                id="phone"
+                placeholder="(DDD) número de celular"
+                class="input-control"
+                maxlength="15"
+                data-mask="(##) #####-####"
+                onblur="handlePhoneInputInteraction(this)"
+                autocomplete="off"
+                required
+                value="(11) 95452-1168"
+              />
+              <span id="phone-error-message" class="error-message"></span>
+              <span class="hint">Insira sem pontos ou traços</span>
+            </div>
+            <div class="form-group">
+              <label for="birth_date">Data de Nascimento:</label>
+              <div class="input-wrapper">
+                <input
+                  type="date"
+                  name="birth_date"
+                  id="birth_date"
+                  max="2009-12-31"
+                  class="input-control"
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  class="size-5"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span id="birth_date-error-message" class="error-message"></span>
+            </div>
+            <div class="form-group">
+              <label for="gender">Gênero:</label>
+              <div class="input-wrapper">
+                <select name="gender" id="gender" class="input-control">
+                  <option value="" selected>Selecione uma das opções</option>
+                  <option value="Masculino">Masculino</option>
+                  <option value="Feminino">Feminino</option>
+                  <option value="Prefiro não dizer">Prefiro não dizer</option>
+                </select>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  class="size-5"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span id="gender-error-message" class="error-message"></span>
+            </div>
+          </fieldset>
+          <!-- customer data -->
+
+          <!-- with address -->
+          <div class="form-check" style="margin: 1rem 0 1rem 0">
+            <input
+              type="checkbox"
+              id="should_include_address"
+              name="should_include_address"
+              class="check-input"
+            />
+            <label for="should_include_address"
+              >Incluir endereço de entrega?</label
+            >
+          </div>
+          <!-- with address -->
+
+          <!-- address data -->
+          <fieldset id="address-data" class="form-section">
+            <legend>Endereço de Entrega</legend>
+            <div class="form-group">
+              <label for="zipcode">CEP:</label>
+              <input
+                type="text"
+                name="zipcode"
+                id="zipcode"
+                placeholder="Digite o CEP"
+                onblur="handleZipcodeInputInteraction(this)"
+                oninput="this.value.length === 9 ? handleZipcodeInputInteraction(this) : null"
+                class="input-control"
+                autocomplete="off"
+                maxlength="9"
+                data-mask="#####-###"
+                required
+                data-zipcode-field="zipcode"
+              />
+              <span id="zipcode-error-message" class="error-message"></span>
+              <span class="hint">Insira sem pontos ou traços</span>
+            </div>
+            <div class="form-group">
+              <label for="address">Endereço:</label>
+              <input
+                type="text"
+                name="street"
+                id="street"
+                placeholder="Rua, avenida ou travessa"
+                class="input-control"
+                autocomplete="off"
+                required
+                data-zipcode-field="street"
+              />
+              <span class="hint">Digite o CEP para buscar o endereço</span>
+              <span id="street-error-message" class="error-message"></span>
+            </div>
+            <div class="form-group">
+              <label for="number">Número:</label>
+              <input
+                type="text"
+                name="number"
+                id="number"
+                placeholder="Número da residência"
+                class="input-control"
+                autocomplete="off"
+                maxlength="20"
+                data-zipcode-field="number"
+              />
+            </div>
+            <div class="form-group">
+              <label for="neighborhood">Bairro:</label>
+              <input
+                type="text"
+                name="neighborhood"
+                id="neighborhood"
+                placeholder="Centro, Jardim, etc"
+                class="input-control"
+                autocomplete="off"
+                required
+                data-zipcode-field="neighborhood"
+              />
+              <span
+                id="neighborhood-error-message"
+                class="error-message"
+              ></span>
+            </div>
+            <div class="form-group">
+              <label for="complement">Complemento:</label>
+              <input
+                type="text"
+                name="complement"
+                id="complement"
+                placeholder="Bloco, apto, sala (opcional)"
+                class="input-control"
+                autocomplete="off"
+                maxlength="255"
+                data-zipcode-field="complement"
+              />
+            </div>
+            <div class="form-group">
+              <label for="reference">Referência:</label>
+              <input
+                type="text"
+                name="reference"
+                id="reference"
+                placeholder="Ponto de referência (opcional)"
+                class="input-control"
+                autocomplete="off"
+                maxlength="255"
+                data-zipcode-field="reference"
+              />
+            </div>
+            <div class="form-group">
+              <label for="state">Estado:</label>
+              <div class="input-wrapper">
+                <select
+                  name="state"
+                  id="state"
+                  class="input-control"
+                  required
+                  data-zipcode-field="state"
+                >
+                  <option value="" disabled selected>Selecione o estado</option>
+                </select>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  class="size-5"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span id="state-error-message" class="error-message"></span>
+            </div>
+            <div class="form-group">
+              <label for="city">Cidade:</label>
+              <div class="input-wrapper">
+                <select
+                  name="city"
+                  id="city"
+                  class="input-control"
+                  required
+                  data-zipcode-field="city"
+                >
+                  <option value="" disabled selected>Selecione a cidade</option>
+                </select>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  class="size-5"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <span id="city-error-message" class="error-message"></span>
+            </div>
+          </fieldset>
+          <!-- address data -->
+
+          <!-- additional data -->
+          <fieldset id="additional-data" class="form-section">
+            <legend>Informações adicionais</legend>
+            <div class="form-group">
+              <label for="seller">Vendedor:</label>
+              <input
+                type="text"
+                name="seller"
+                id="seller"
+                placeholder="Digite seu código de vendedor"
+                class="input-control"
+                autocomplete="off"
+                required
+                value="1807"
+              />
+              <span id="seller-error-message" class="error-message"></span>
+            </div>
+          </fieldset>
+          <!-- additional data -->
+        </form>
+      </div>
+      <div slot="footer">
+        <button type="submit" form="create_customer_form" class="button w-full">
+          Cadastrar
+        </button>
+      </div>
+    </drawer-component>
+
+    <modal-component id="create_customer_2" cloak>
+      <div slot="title">Confirmação de Cadastro</div>
+      <div slot="body">Confirmação</div>
+      <div slot="footer">
+        <button onclick="dispatch.close({ id: '#create_customer_2' })">
+          Criar
+        </button>
+      </div>
+    </modal-component>
+
+    <div class="radial-menu" id="radialMenu">
+      <div class="center-button" id="toggleBtn">☰</div>
+
+      <div class="radial-item" style="--angle: 0deg">
+        <button onclick="dispatch.open({ id: '#create_customer' })">
+          Cadastrar cliente
+        </button>
+      </div>
+
+      <div class="radial-item" style="--angle: 270deg">
+        <button onclick="dispatch.open({ id: '#create_customer_2' })">
+          Gerar link de referência
+        </button>
+      </div>
+    </div>
+
+    <script src="./src/js/main.js" type="module" defer></script>
+    <script>
+      const toggleBtn = document.getElementById("toggleBtn");
+      const radialMenu = document.getElementById("radialMenu");
+
+      toggleBtn.addEventListener("click", () => {
+        radialMenu.classList.toggle("active");
+      });
+    </script>
+  </body>
+</html>
