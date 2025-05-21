@@ -25,3 +25,17 @@ export const setZipcodeFieldsLoadingState = (isDisabled = true) => {
     inputElement.disabled = isDisabled;
   });
 };
+
+export const setToggleZipcodeSection = () => {
+  const zipCodeCheckbox = document.querySelector("#should_include_address");
+
+  if (!zipCodeCheckbox) return;
+
+  zipCodeCheckbox.addEventListener("change", ({ target: { checked } }) => {
+    const addressSection = document.getElementById("address-data");
+
+    if (!addressSection) return;
+
+    addressSection.classList.toggle("hidden", !checked);
+  });
+};

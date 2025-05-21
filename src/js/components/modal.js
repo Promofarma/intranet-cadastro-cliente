@@ -81,14 +81,14 @@ export class Modal extends BaseElement {
         justify-content: center;
         align-items: center;
         flex-shrink: 0;
-        background-color: #f3f4f6; /* paleta 100 */
-        color: #4b5563; /* paleta 600 */
+        background-color: #f3f4f6; 
+        color: #4b5563; 
         margin: 0 auto;
       }
 
       .modal-icon-container svg {
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 2rem;
+        height: 2rem;
         flex-shrink: 0;
         color: currentColor;
       }
@@ -106,6 +106,7 @@ export class Modal extends BaseElement {
         justify-content: flex-end;
         padding: 1rem;
         gap: 1rem;
+        border-top: 1px solid #e5e7eb; 
       }
 
       </style>
@@ -113,9 +114,6 @@ export class Modal extends BaseElement {
       <div class="modal-wrapper" data-target>
         <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-description">
           <header class="modal-header">
-            <div class="modal-icon-container warning">
-              <slot name="icon"></slot>
-            </div>
             <div>
               <h2 id="modal-title" class="title">
                 <slot name="title"></slot>

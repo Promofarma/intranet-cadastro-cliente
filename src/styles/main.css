@@ -11,6 +11,7 @@ body {
   font-size: 0.8em;
   font-family: Arial;
   color: #696969;
+  position: relative;
 }
 
 [cloak] {
@@ -26,7 +27,7 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 0.375rem;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1rem;
   line-height: 1.25rem;
   cursor: pointer;
@@ -42,6 +43,16 @@ body {
   transform: translateY(1px);
 }
 
+.button.ghost {
+  background-color: transparent;
+  color: #9ca3af;
+}
+
+.button.ghost:hover {
+  color: #111827;
+  background-color: #f3f4f6;
+}
+
 .button:disabled {
   cursor: not-allowed;
   box-shadow: none;
@@ -53,50 +64,181 @@ body {
   width: 100%;
 }
 
-.center-button {
-  position: absolute;
-  left: 1rem;
-  bottom: 1rem;
+.radial-menu {
+  position: fixed;
+  bottom: 2rem;
+  left: 4rem;
   width: 4rem;
   height: 4rem;
-  background: white;
-  border: 1px solid #e5e7eb;
+  z-index: 50;
+}
+
+.center-button {
+  position: absolute;
+  width: 4rem;
+  height: 4rem;
+  background-color: #ef4444;
+  border: none;
+  color: #ffffff;
   border-radius: 9999px;
-  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  bottom: 0;
+  left: 0;
+  transition: background 150ms ease;
 }
 
-.radial-menu {
-  position: relative;
-  width: 200px;
-  height: 200px;
+.center-button:hover {
+  background-color: #dc2626;
+}
+
+.center-button svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: currentColor;
+  flex-shrink: 0;
 }
 
 .radial-item {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 0.3s ease, opacity 0.3s ease;
   opacity: 0;
+  transform: scale(0);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .radial-item button {
-  padding: 5px 10px;
-  font-size: 12px;
-  border: 1px solid #d1d5db;
+  padding: 0.375rem 0.875rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  border: 1px solid #e5e7eb;
   border-radius: 6px;
   background: white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  color: #374151;
   cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  min-width: 10rem;
+}
+
+.radial-item button:hover {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.line {
+  position: absolute;
+  background-color: #ef4444;
+  transform-origin: bottom left;
+  opacity: 0;
+  transition: all 200ms ease;
+  z-index: 1;
+}
+
+.radial-item.top {
+  bottom: 0;
+  left: -2.5rem;
+}
+
+.line-top {
+  width: 2px;
+  height: 0;
+  bottom: 2rem;
+  left: 2rem;
+}
+
+.radial-item.right {
+  bottom: 1.1rem;
+  left: 0;
+}
+
+.line-right {
+  height: 2px;
+  width: 0;
+  bottom: 2rem;
+  left: 2rem;
 }
 
 .radial-menu.active .radial-item {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1) rotate(var(--angle))
-    translateX(80px) rotate(calc(-1 * var(--angle)));
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.radial-menu.active .radial-item.top {
+  transform: scale(1) translateY(-8rem);
+}
+
+.radial-menu.active .radial-item.right {
+  transform: scale(1) translateX(8rem);
+}
+
+.radial-menu.active .line-top {
+  height: 6rem;
+  opacity: 1;
+}
+
+.radial-menu.active .line-right {
+  width: 6rem;
+  opacity: 1;
+}
+
+.section {
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.section-header {
+  display: grid;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #111827;
+}
+
+.section-description {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: #6b7280;
+}
+
+.section-content {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+
+.field-label {
+  font-weight: 600;
+  color: #374151;
+  min-width: 8rem;
+  flex-shrink: 0;
+}
+
+.field-value {
+  color: #4b5563;
+  flex: 1;
+  word-break: break-word;
 }

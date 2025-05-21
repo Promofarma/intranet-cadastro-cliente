@@ -1,6 +1,7 @@
+import { httpClient } from "./../utils/http-client.js";
 export const createCustomer = async (payload) => {
   try {
-    const response = await api("/customer", {
+    const response = await httpClient("/customer", {
       method: "POST",
       body: JSON.stringify({
         nome: payload.name,
@@ -10,7 +11,7 @@ export const createCustomer = async (payload) => {
         data_nascimento: payload.birth_date,
         genero: payload.gender,
         vendedor: payload.seller,
-        loja: 1,
+        loja: payload.store,
       }),
     });
 
@@ -38,7 +39,7 @@ export const createCustomer = async (payload) => {
 
 export const createCustomerAddress = async (customerUuid, payload) => {
   try {
-    const response = await api("/customer/address", {
+    const response = await httpClient("/customer/address", {
       method: "POST",
       body: JSON.stringify({
         cliente_uuid: customerUuid,
@@ -55,11 +56,9 @@ export const createCustomerAddress = async (customerUuid, payload) => {
 
     const status = response.status;
 
-    const data = await response.json();
-
     return {
       status,
-      data: data?.data ?? null,
+      data: null,
       errors:
         status === 422 && typeof data.errors === "object" ? data.errors : null,
     };

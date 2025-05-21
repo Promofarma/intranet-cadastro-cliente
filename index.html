@@ -6,11 +6,11 @@
     <title>Exemplo Cadastro de Clientes</title>
     <link rel="stylesheet" href="./src/styles/main.css" />
   </head>
-  <body>
+  <body data-store="1">
     <drawer-component id="create_customer" cloak>
       <div slot="title">Cadastro de Cliente</div>
       <div slot="body">
-        <form id="create_customer_form">
+        <form id="create_customer_form" novalidate>
           <!-- customer data -->
           <fieldset id="customer-data" class="form-section">
             <legend>Informações pessoais</legend>
@@ -25,7 +25,6 @@
                 autocomplete="off"
                 maxlength="60"
                 required
-                value="vinicius alves coutinho"
               />
               <span id="name-error-message" class="error-message"></span>
             </div>
@@ -40,7 +39,6 @@
                 autocomplete="off"
                 maxlength="255"
                 required
-                value="2gV4W@example.com"
               />
               <span id="email-error-message" class="error-message"></span>
             </div>
@@ -57,7 +55,6 @@
                 data-mask="###.###.###-##"
                 onblur="handleCpfInputInteraction(this)"
                 required
-                value="471.450.268-99"
               />
               <span id="cpf-error-message" class="error-message"></span>
               <span class="hint">Insira sem pontos ou traços</span>
@@ -75,7 +72,6 @@
                 onblur="handlePhoneInputInteraction(this)"
                 autocomplete="off"
                 required
-                value="(11) 95452-1168"
               />
               <span id="phone-error-message" class="error-message"></span>
               <span class="hint">Insira sem pontos ou traços</span>
@@ -147,7 +143,7 @@
           <!-- with address -->
 
           <!-- address data -->
-          <fieldset id="address-data" class="form-section">
+          <fieldset id="address-data" class="form-section hidden">
             <legend>Endereço de Entrega</legend>
             <div class="form-group">
               <label for="zipcode">CEP:</label>
@@ -309,7 +305,6 @@
                 class="input-control"
                 autocomplete="off"
                 required
-                value="1807"
               />
               <span id="seller-error-message" class="error-message"></span>
             </div>
@@ -324,39 +319,109 @@
       </div>
     </drawer-component>
 
-    <modal-component id="create_customer_2" cloak>
+    <modal-component id="confirm_create_customer" cloak>
       <div slot="title">Confirmação de Cadastro</div>
-      <div slot="body">Confirmação</div>
-      <div slot="footer">
-        <button onclick="dispatch.close({ id: '#create_customer_2' })">
-          Criar
+      <div slot="body" id="modal_customer_data"></div>
+      <div slot="footer" style="display: flex; gap: 1rem">
+        <button
+          class="button ghost"
+          onclick="dispatch.close({ id: '#confirm_create_customer' });setTimeout(() => dispatch.open({ id: '#create_customer' }), 300);"
+        >
+          Voltar
+        </button>
+        <button id="confirm_create_customer_button" class="button">
+          Finalizar cadastro
         </button>
       </div>
     </modal-component>
 
-    <div class="radial-menu" id="radialMenu">
-      <div class="center-button" id="toggleBtn">☰</div>
+    <modal-component id="create_successful" cloak>
+      <div slot="title">Cliente cadastrado com sucesso</div>
+      <div slot="body">
+        <p>
+          O cliente receberá em breve uma mensagem pelo WhatsApp com as
+          instruções para acessar o PromoClube.
+        </p>
+      </div>
+      <div slot="footer">
+        <button
+          onclick="dispatch.close({ id: '#create_successful' })"
+          class="button"
+        >
+          Fechar
+        </button>
+      </div>
+    </modal-component>
 
-      <div class="radial-item" style="--angle: 0deg">
+    <modal-component id="create_reference_link" cloak>
+      <div slot="title">Gerar link de referência</div>
+      <div slot="body">
+        <div class="form-group">
+          <label for="seller">Vendedor:</label>
+          <input
+            type="text"
+            name="seller"
+            id="seller"
+            placeholder="Digite seu código de vendedor"
+            class="input-control"
+            autocomplete="off"
+            required
+          />
+          <span id="seller-error-message" class="error-message"></span>
+        </div>
+      </div>
+      <div slot="footer">
+        <button class="button">Gerar</button>
+      </div>
+    </modal-component>
+
+    <div class="radial-menu" id="radial_menu">
+      <div class="line line-top"></div>
+      <div class="line line-right"></div>
+
+      <div class="center-button" id="toggle_button">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 4.5v15m7.5-7.5h-15"
+          />
+        </svg>
+      </div>
+
+      <div class="radial-item top">
         <button onclick="dispatch.open({ id: '#create_customer' })">
           Cadastrar cliente
         </button>
       </div>
 
-      <div class="radial-item" style="--angle: 270deg">
-        <button onclick="dispatch.open({ id: '#create_customer_2' })">
+      <div class="radial-item right">
+        <button onclick="dispatch.open({ id: '#create_reference_link' })">
           Gerar link de referência
         </button>
       </div>
     </div>
 
-    <script src="./src/js/main.js" type="module" defer></script>
+    <script type="module" src="./src/js/main.js" defer></script>
     <script>
-      const toggleBtn = document.getElementById("toggleBtn");
-      const radialMenu = document.getElementById("radialMenu");
+      const toggle = document.getElementById("toggle_button");
+      const menu = document.getElementById("radial_menu");
 
-      toggleBtn.addEventListener("click", () => {
-        radialMenu.classList.toggle("active");
+      toggle.addEventListener("click", (e) => {
+        e.preventDefault();
+        menu.classList.toggle("active");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!menu.contains(e.target)) {
+          menu.classList.remove("active");
+        }
       });
     </script>
   </body>
