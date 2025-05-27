@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./src/styles/main.css" />
   </head>
   <body data-store="1">
+    <!-- cadastro de cliente -->
     <drawer-component id="create_customer" cloak>
       <div slot="title">Cadastro de Cliente</div>
       <div slot="body">
@@ -318,7 +319,9 @@
         </button>
       </div>
     </drawer-component>
+    <!-- cadastro de cliente -->
 
+    <!-- confirmacao de cadastro -->
     <modal-component id="confirm_create_customer" cloak>
       <div slot="title">Confirmação de Cadastro</div>
       <div slot="body" id="modal_customer_data"></div>
@@ -334,7 +337,9 @@
         </button>
       </div>
     </modal-component>
+    <!-- confirmacao de cadastro -->
 
+    <!-- cadastro bem sucedido -->
     <modal-component id="create_successful" cloak>
       <div slot="title">Cliente cadastrado com sucesso</div>
       <div slot="body">
@@ -352,29 +357,44 @@
         </button>
       </div>
     </modal-component>
+    <!-- cadastro bem sucedido -->
 
-    <modal-component id="create_reference_link" cloak>
+    <!-- gerar link de referência -->
+    <modal-component id="modal-create-reference-link" cloak>
       <div slot="title">Gerar link de referência</div>
+      <div slot="description">
+        <p>
+          Para gerar um link de referência, informe seu código de vendedor e
+          clique em "Gerar".
+        </p>
+      </div>
       <div slot="body">
         <div class="form-group">
-          <label for="seller">Vendedor:</label>
+          <label for="create-reference-link-seller">Vendedor:</label>
           <input
             type="text"
-            name="seller"
-            id="seller"
+            name="create_reference_link_seller"
+            id="create-reference-link-seller"
             placeholder="Digite seu código de vendedor"
             class="input-control"
             autocomplete="off"
             required
           />
-          <span id="seller-error-message" class="error-message"></span>
+          <span
+            id="create-reference-link-seller-error"
+            class="error-message"
+          ></span>
         </div>
+
+        <div id="create-reference-link-result" class="result-box"></div>
       </div>
       <div slot="footer">
-        <button class="button">Gerar</button>
+        <button class="button" id="create-reference-link-button">Gerar</button>
       </div>
     </modal-component>
+    <!-- gerar link de referência -->
 
+    <!-- menu radial -->
     <div class="radial-menu" id="radial_menu">
       <div class="line line-top"></div>
       <div class="line line-right"></div>
@@ -402,13 +422,13 @@
       </div>
 
       <div class="radial-item right">
-        <button onclick="dispatch.open({ id: '#create_reference_link' })">
+        <button onclick="dispatch.open({ id: '#modal-create-reference-link' })">
           Gerar link de referência
         </button>
       </div>
     </div>
+    <!-- menu radial -->
 
-    <script type="module" src="./src/js/main.js" defer></script>
     <script>
       const toggle = document.getElementById("toggle_button");
       const menu = document.getElementById("radial_menu");
@@ -424,5 +444,7 @@
         }
       });
     </script>
+
+    <script type="module" src="./src/js/main.js" defer></script>
   </body>
 </html>

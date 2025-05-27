@@ -10,6 +10,8 @@ import { handleCpfInputInteraction } from "./utils/handle-cpf-input-interaction.
 import { handlePhoneInputInteraction } from "./utils/handle-phone-input-interaction.js";
 import { handleZipcodeInputInteraction } from "./utils/handle-zipcode-input-interaction.js";
 
+import { setupGenerateReferenceLink } from "./modules/generate-reference-link.js";
+
 import "./components/drawer.js";
 import "./components/modal.js";
 
@@ -22,6 +24,7 @@ window.addEventListener("DOMContentLoaded", () => {
   setupFormHandler();
   setupLocationSelectHandler();
   setToggleZipcodeSection();
+  setupGenerateReferenceLink();
 
   // global functions
   window.dispatch = dispatch;
