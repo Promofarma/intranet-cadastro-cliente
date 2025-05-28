@@ -34,6 +34,8 @@ export const setupFormHandler = () => {
       const { validated, errors } = validate(formData, customerAddressSchema);
       addressData = validated;
       allErrors = { ...allErrors, ...errors };
+    } else {
+      addressData = null;
     }
 
     if (Object.keys(allErrors).length > 0) {
