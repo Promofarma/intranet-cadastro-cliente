@@ -1,4 +1,6 @@
-export const setupGenerateReferenceLink = () => {
+export const setupGenerateReferenceLink = (
+  baseUrl = "https://promoclube.promofarma.com.br/customer/register"
+) => {
   const modal = document.querySelector("#modal-create-reference-link");
   if (!modal) return;
 
@@ -20,17 +22,15 @@ export const setupGenerateReferenceLink = () => {
   button.addEventListener("click", (event) => {
     event.preventDefault();
 
-    reset();
-
     const value = input.value.trim();
 
-    if (value.length < 4) {
+    if (value.length > 4) {
       input.classList.add("error");
       error.textContent = "Vendedor inválido";
+      input.focus();
       return;
     }
 
-    const baseUrl = "https://promoclube.promofarma.com.br/customer/register";
     const url = `${baseUrl}?utm_source=intranet&utm_medium=offline&utm_campaign=${encodeURIComponent(
       value
     )}&utm_content=modal-intranet`;
@@ -40,7 +40,7 @@ export const setupGenerateReferenceLink = () => {
   });
 
   document.addEventListener("open", ({ detail }) => {
-    if (detail.id === "#modal-create-reference-link") {
+    if (detail?.id === "#modal-create-reference-link") {
       reset();
     }
   });
