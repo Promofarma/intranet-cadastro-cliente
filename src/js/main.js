@@ -19,6 +19,10 @@ import "./modules/customer-data-modal-handler.js";
 import "./modules/submit-confirmed-customer.js";
 
 window.addEventListener("DOMContentLoaded", () => {
+  if (!document.body.dataset.store) {
+    document.getElementById("radial_menu").style.display = "none";
+  }
+
   // register event
   setupMask();
   setupFormHandler();
