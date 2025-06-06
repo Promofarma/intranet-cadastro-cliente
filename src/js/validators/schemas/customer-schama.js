@@ -34,7 +34,7 @@ export const customerSchema = {
     message: {},
   },
   seller: {
-    rules: ["required", "min:4", "max:5"],
+    rules: ["required", "min:1", "max:5"],
     message: {
       required: "O campo vendedor é obrigatório",
       min: "Código de vendedor deve ter no mínimo 4 caracteres",
